@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía Interactiva: Álgebra Relacional & Entity Framework Core</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f5ff',
+                            100: '#e0ebff',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a',
+                            darkBg: '#0b1329',
+                            cardBg: '#111b35',
+                            accent: '#10b981',
+                            gold: '#f59e0b'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #080e1e;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .glow-indigo {
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.15);
+        }
+        .glow-emerald {
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.15);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b1329;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3b82f6;
+        }
+    </style>
+</head>
+<body class="text-slate-100 min-h-screen selection:bg-brand-500 selection:text-white">
+
+    <header class="border-b border-slate-800 bg-brand-darkBg/95 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-gradient-to-tr from-brand-600 to-indigo-500 p-2.5 rounded-xl text-white shadow-lg shadow-brand-500/20">
+                    <i class="fa-solid fa-database text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-sm sm:text-lg font-extrabold tracking-tight text-white flex flex-wrap items-center gap-2">
+                        UNIVERSIDAD ANDINA DEL CUSCO 
+                        <span class="text-[10px] font-semibold bg-brand-900 border border-brand-700/50 text-brand-100 px-2 py-0.5 rounded-full">Ing. de Sistemas</span>
+                    </h1>
+                    <p class="text-xs text-slate-400">Modelado de Base de Datos • Taller Práctico 3.1 & 3.2</p>
+                </div>
+            </div>
+            <div class="hidden md:flex items-center space-x-4">
+                <div class="text-right">
+                    <span class="text-[10px] block text-slate-500 font-bold uppercase tracking-wider">Grupo de Trabajo:</span>
+                    <span class="text-xs font-bold text-brand-accent"><i class="fa-solid fa-users mr-1"></i> Los Mohamad Ali Yantal</span>
+                </div>
+                <div class="h-8 w-[1px] bg-slate-800"></div>
+                <span class="text-xs font-bold text-white bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-lg transition border border-slate-700 cursor-default">
+                    <i class="fa-solid fa-microchip text-brand-gold mr-1"></i> .NET 8.0 & EF Core
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+
+        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-brand-cardBg to-[#0d162d] border border-slate-800 p-8 sm:p-12 glow-indigo">
+            <div class="absolute top-0 right-0 -mt-12 -mr-12 w-96 h-96 bg-brand-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute bottom-0 left-0 -mb-12 -ml-12 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-8 space-y-6">
+                    <div class="inline-flex items-center space-x-2 bg-slate-900 border border-slate-800 px-3 py-1 rounded-full text-xs text-brand-200">
+                        <span class="w-2 h-2 rounded-full bg-brand-accent animate-pulse"></span>
+                        <span>Investigación e Implementación de Álgebra Relacional</span>
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-tight">
+                        Explorando el Álgebra Relacional<br>
+                        <span class="bg-gradient-to-r from-brand-500 via-indigo-400 to-emerald-400 bg-clip-text text-transparent">mediante Entity Framework Core</span>
+                    </h2>
+                    <p class="text-slate-300 text-sm sm:text-base max-w-2xl leading-relaxed">
+                        Validación experimental de las operaciones lógicas y matemáticas de base de datos sobre el esquema relacional de <strong class="text-brand-gold">Pubs</strong>. Mapeamos formalmente las operaciones unarias (σ, π, ρ) y binarias (∪, −, ×) al framework LINQ de C#.
+                    </p>
+                    <div class="flex flex-wrap gap-4 pt-2">
+                        <a href="#unarias-seccion" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold text-xs px-5 py-3 rounded-xl transition duration-200 flex items-center gap-2 shadow-lg shadow-brand-600/20">
+                            <i class="fa-solid fa-circle-nodes"></i> Operaciones Unarias
+                        </a>
+                        <a href="#binarias-seccion" class="bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs px-5 py-3 rounded-xl transition duration-200 flex items-center gap-2 border border-slate-700">
+                            <i class="fa-solid fa-bezier-curve"></i> Operaciones Binarias
+                        </a>
+                        <a href="#esquema-seccion" class="bg-slate-900 hover:bg-slate-800 text-slate-300 font-semibold text-xs px-5 py-3 rounded-xl transition duration-200 flex items-center gap-2 border border-slate-800">
+                            <i class="fa-solid fa-database"></i> Modelo Pubs
+                        </a>
+                    </div>
+                </div>
+                <div class="lg:col-span-4 bg-slate-900/60 backdrop-blur border border-slate-800 rounded-2xl p-6 space-y-4">
+                    <h3 class="text-sm font-bold text-slate-300 border-b border-slate-800 pb-2">Datos Académicos</h3>
+                    <div class="space-y-3 text-xs">
+                        <div class="flex justify-between"><span class="text-slate-500">Docente:</span> <span class="text-white font-medium">Hugo Espetia Huamanga</span></div>
+                        <div class="flex justify-between"><span class="text-slate-500">Semestre:</span> <span class="text-white font-medium">2025-I (Ciclo V)</span></div>
+                        <div class="flex justify-between"><span class="text-slate-500">Ubicación:</span> <span class="text-white font-medium">Cusco, Perú</span></div>
+                        <div class="flex justify-between"><span class="text-slate-500">Competencias:</span> <span class="text-brand-accent font-bold">AG-C071 / AG-C091</span></div>
+                    </div>
+                    <div class="pt-2">
+                        <h4 class="text-xs font-semibold text-slate-400 mb-2">Desarrolladores (100%):</h4>
+                        <div class="grid grid-cols-2 gap-1.5 text-[10px] text-slate-300">
+                            <div class="bg-slate-800 px-2 py-1.5 rounded border border-slate-700/50">Aldhair E. Mamani</div>
+                            <div class="bg-slate-800 px-2 py-1.5 rounded border border-slate-700/50">Gianfrando M. Quispe</div>
+                            <div class="bg-slate-800 px-2 py-1.5 rounded border border-slate-700/50">Bastian N. Quipo</div>
+                            <div class="bg-slate-800 px-2 py-1.5 rounded border border-slate-700/50">Frank Puma U.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-brand-cardBg/30 border border-slate-800 rounded-2xl p-6 flex gap-4 items-start">
+                <div class="bg-brand-900/50 p-3 rounded-xl border border-brand-700/30 text-brand-500">
+                    <i class="fa-solid fa-graduation-cap text-2xl"></i>
+                </div>
+                <div>
+                    <span class="text-[10px] font-extrabold uppercase tracking-widest text-brand-500">Indicador AG-C071.2 / Comunicación</span>
+                    <h3 class="text-base font-bold text-white mt-1">Conocimiento de Computación Aplicado</h3>
+                    <p class="text-xs text-slate-400 mt-2 leading-relaxed text-justify">
+                        Los miembros del equipo aplican los fundamentos matemáticos de la teoría de conjuntos y las bases de datos relacionales en la resolución del problema y se comunican técnicamente en forma clara durante la sustentación.
+                    </p>
+                </div>
+            </div>
+            <div class="bg-brand-cardBg/30 border border-slate-800 rounded-2xl p-6 flex gap-4 items-start">
+                <div class="bg-emerald-900/30 p-3 rounded-xl border border-emerald-700/30 text-brand-accent">
+                    <i class="fa-solid fa-diagram-project text-2xl"></i>
+                </div>
+                <div>
+                    <span class="text-[10px] font-extrabold uppercase tracking-widest text-brand-accent">Indicador AG-C091.1 / Desarrollo</span>
+                    <h3 class="text-base font-bold text-white mt-1">Solución de Computación en Localhost</h3>
+                    <p class="text-xs text-slate-400 mt-2 leading-relaxed text-justify">
+                        Diseño e implementación sistémica de una solución ejecutable en <strong class="text-white">localhost</strong> mediante una aplicación de Windows Forms interactiva con 18 botones, mapeando objetos relacionales mediante EF Core.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <section id="esquema-seccion" class="bg-brand-cardBg/40 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-800 pb-4 gap-4">
+                <div>
+                    <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-database text-brand-gold"></i> Esquema de Referencia: Base de Datos Pubs
+                    </h3>
+                    <p class="text-xs text-slate-400">Esquema físico normalizado, base para las transformaciones algebraicas del laboratorio.</p>
+                </div>
+                <span class="text-xs bg-slate-900 border border-slate-700 px-3 py-1.5 rounded-xl font-mono text-slate-300">
+                    Servidor: SQL Server Express / LocalDB
+                </span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 hover:border-brand-500/50 transition duration-300">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-3">
+                        <span class="font-bold text-sm text-white flex items-center gap-2">
+                            <i class="fa-solid fa-user-tie text-brand-500"></i> Authors (dbo.authors)
+                        </span>
+                    </div>
+                    <ul class="space-y-1.5 text-xs font-mono text-slate-300">
+                        <li class="flex justify-between py-0.5 border-b border-slate-800/40"><span class="text-brand-500 font-bold">au_id (PK)</span> <span class="text-slate-500">varchar(11)</span></li>
+                        <li class="flex justify-between py-0.5"><span>au_lname</span> <span class="text-slate-500">varchar(40)</span></li>
+                        <li class="flex justify-between py-0.5"><span>au_fname</span> <span class="text-slate-500">varchar(20)</span></li>
+                        <li class="flex justify-between py-0.5"><span>city</span> <span class="text-slate-500">varchar(20)</span></li>
+                        <li class="flex justify-between py-0.5"><span>state</span> <span class="text-slate-500">char(2)</span></li>
+                        <li class="flex justify-between py-0.5"><span>contract</span> <span class="text-slate-500">bit</span></li>
+                    </ul>
+                </div>
+                <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 hover:border-brand-500/50 transition duration-300">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-3">
+                        <span class="font-bold text-sm text-white flex items-center gap-2">
+                            <i class="fa-solid fa-book text-brand-gold"></i> Titles (dbo.titles)
+                        </span>
+                    </div>
+                    <ul class="space-y-1.5 text-xs font-mono text-slate-300">
+                        <li class="flex justify-between py-0.5 border-b border-slate-800/40"><span class="text-brand-gold font-bold">title_id (PK)</span> <span class="text-slate-500">varchar(6)</span></li>
+                        <li class="flex justify-between py-0.5"><span>title</span> <span class="text-slate-500">varchar(80)</span></li>
+                        <li class="flex justify-between py-0.5"><span>type</span> <span class="text-slate-500">char(12)</span></li>
+                        <li class="flex justify-between py-0.5"><span>price</span> <span class="text-slate-500">money</span></li>
+                        <li class="flex justify-between py-0.5"><span>ytd_sales</span> <span class="text-slate-500">int</span></li>
+                        <li class="flex justify-between py-0.5"><span>pub_id (FK)</span> <span class="text-slate-500">char(4)</span></li>
+                    </ul>
+                </div>
+                <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 hover:border-brand-500/50 transition duration-300">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-3">
+                        <span class="font-bold text-sm text-white flex items-center gap-2">
+                            <i class="fa-solid fa-building-columns text-emerald-400"></i> Publishers (dbo.publishers)
+                        </span>
+                    </div>
+                    <ul class="space-y-1.5 text-xs font-mono text-slate-300">
+                        <li class="flex justify-between py-0.5 border-b border-slate-800/40"><span class="text-emerald-400 font-bold">pub_id (PK)</span> <span class="text-slate-500">char(4)</span></li>
+                        <li class="flex justify-between py-0.5"><span>pub_name</span> <span class="text-slate-500">varchar(40)</span></li>
+                        <li class="flex justify-between py-0.5"><span>city</span> <span class="text-slate-500">varchar(20)</span></li>
+                        <li class="flex justify-between py-0.5"><span>state</span> <span class="text-slate-500">char(2)</span></li>
+                        <li class="flex justify-between py-0.5"><span>country</span> <span class="text-slate-500">varchar(30)</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="unarias-seccion" class="space-y-8 pt-6">
+            <div class="border-l-4 border-brand-500 pl-4 space-y-2">
+                <h2 class="text-2xl font-black tracking-tight text-white flex items-center gap-2">
+                    2. Implementación de Operaciones Unarias <span class="text-xs bg-brand-900 text-brand-100 px-2 py-1 rounded">3 Ejercicios</span>
+                </h2>
+                <p class="text-sm text-slate-400">Consultas aplicadas de manera aislada sobre una única relación.</p>
+            </div>
+
+            <div class="flex border-b border-slate-800 overflow-x-auto">
+                <button onclick="switchTab('unaria', 'seleccion')" id="tab-unaria-seleccion" class="tab-btn py-4 px-6 text-sm font-bold text-brand-500 border-b-2 border-brand-500 flex items-center gap-2 transition whitespace-nowrap">
+                    <span class="text-lg">σ</span> 2.1 Selección
+                </button>
+                <button onclick="switchTab('unaria', 'proyeccion')" id="tab-unaria-proyeccion" class="tab-btn py-4 px-6 text-sm font-bold text-slate-400 hover:text-white flex items-center gap-2 transition whitespace-nowrap">
+                    <span class="text-lg">π</span> 2.2 Proyección
+                </button>
+                <button onclick="switchTab('unaria', 'renombramiento')" id="tab-unaria-renombramiento" class="tab-btn py-4 px-6 text-sm font-bold text-slate-400 hover:text-white flex items-center gap-2 transition whitespace-nowrap">
+                    <span class="text-lg">ρ</span> 2.3 Renombramiento
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-8 space-y-6">
+                    
+                    <div id="content-unaria-seleccion" class="tab-content space-y-6">
+                        <div class="bg-brand-cardBg/50 border border-slate-800 rounded-2xl p-6 space-y-4">
+                            <div class="flex justify-between items-start">
+                                <span class="bg-brand-900/50 border border-brand-700/50 text-brand-100 px-2.5 py-1 rounded text-xs font-bold">2.1.1 Ejercicio 1 de Selección</span>
+                                <span class="text-xs text-brand-accent font-bold font-mono">σ (Autores de CA)</span>
+                            </div>
+                            <h4 class="text-base font-bold text-white">Autores que residen en el estado de California (CA)</h4>
+                            <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 flex items-center justify-between font-mono text-xs sm:text-sm text-slate-300">
+                                <span><span class="text-brand-500 font-bold">σ</span> <sub>state = 'CA'</sub> (authors)</span>
+                                <span class="text-xs text-slate-500">Álgebra Relacional</span>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center"><span class="text-xs font-bold text-slate-400">Expresión LINQ (C#):</span> <button onclick="copyCode('code-sel1')" class="text-xs text-slate-400 hover:text-white transition"><i class="fa-regular fa-copy"></i> Copiar</button></div>
+                                <pre id="code-sel1" class="bg-slate-900 border border-slate-800 p-4 rounded-xl text-xs font-mono text-slate-300 overflow-x-auto"><span class="text-brand-500">var</span> resultado = context.Authors
+                       .Where(a => a.State == <span class="text-brand-accent">"CA"</span>)
+                       .ToList();</pre>
+                            </div>
+                        </div>
+
+                        <div class="bg-brand-cardBg/50 border border-slate-800 rounded-2xl p-6 space-y-4">
+                            <div class="flex justify-between items-start">
+                                <span class="bg-brand-900/50 border border-brand-700/50 text-brand-100 px-2.5 py-1 rounded text-xs font-bold">2.1.2 Ejercicio 2 de Selección</span>
+                                <span class="text-xs text-brand-accent font-bold font-mono">σ (Rango de Precios)</span>
+                            </div>
+                            <h4 class="text-base font-bold text-white">Libros cuyo precio se encuentra en el rango de $10.00 a $20.00 inclusive</h4>
+                            <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 flex items-center justify-between font-mono text-xs sm:text-sm text-slate-300">
+                                <span><span class="text-brand-500 font-bold">σ</span> <sub>price &ge; 10 &and; price &le; 20</sub> (titles)</span>
+                                <span class="text-xs text-slate-500">Álgebra Relacional</span>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center"><span class="text-xs font-bold text-slate-400">Expresión LINQ (C#):</span> <button onclick="copyCode('code-sel2')" class="text-xs text-slate-400 hover:text-white transition"><i class="fa-regular fa-copy"></i> Copiar</button></div>
+                                <pre id="code-sel2" class="bg-slate-900 border border-slate-800 p-4 rounded-xl text-xs font-mono text-slate-300 overflow-x-auto"><span class="text-brand-500">var</span> resultado = context.Titles
+                       .Where(t => t.Price >= <span class="text-brand-accent">10.00m</span> && t.Price <= <span class="text-brand-accent">20.00m</span>)
+                       .ToList();</pre>
+                            </div>
+                        </div>
+
+                        <div class="bg-brand-cardBg/50 border border-slate-800 rounded-2xl p-6 space-y-4">
+                            <div class="flex justify-between items-start">
+                                <span class="bg-brand-900/50 border border-brand-700/50 text-brand-100 px-2.5 py-1 rounded text-xs font-bold">2.1.3 Ejercicio 3 de Selección</span>
+                                <span class="text-xs text-brand-accent font-bold font-mono">σ (Tipo Business)</span>
+                            </div>
+                            <h4 class="text-base font-bold text-white">Libros que pertenecen estrictamente a la categoría o tipo 'business'</h4>
+                            <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 flex items-center justify-between font-mono text-xs sm:text-sm text-slate-300">
+                                <span><span class="text-brand-500 font-bold">σ</span> <sub>type = 'business'</sub> (titles)</span>
+                                <span class="text-xs text-slate-500">Álgebra Relacional</span>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center"><span class="text-xs font-bold text-slate-400">Expresión LINQ (C#):</span> <button onclick="copyCode('code-sel3')" class="text-xs text-slate-400 hover:text-white transition"><i class="fa-regular fa-copy"></i> Copiar</button></div>
+                                <pre id="code-sel3" class="bg-slate-900 border border-slate-800 p-4 rounded-xl text-xs font-mono text-slate-300 overflow-x-auto"><span class="text-brand-500">var</span> resultado = context.Titles
+                       .Where(t => t.Type.Trim() == <span class="text-brand-accent">"business"</span>)
+                       .ToList();</pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="content-unaria-proyeccion" class="tab-content hidden space-y-6">
+                        <div class="bg-brand-cardBg/50 border border-slate-800 rounded-2xl p-6 space-y-4">
+                            <div class="flex justify-between items-start">
+                                <span class="bg-brand-900/50 border border-brand-700/50 text-brand-100 px-2.5 py-1 rounded text-xs font-bold">2.2.1 Ejercicio 1 de Proyección</span>
+                                <span class="text-xs text-brand-accent font-bold font-mono">π (Nombres y Apellidos)</span>
+                            </div>
+                            <h4 class="text-base font-bold text-white">Extraer únicamente los nombres (au_fname) y apellidos (au_lname) de todos los autores</h4>
+                            <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 flex items-center justify-between font-mono text-xs sm:text-sm text-slate-300">
+                                <span><span class="text-brand-gold font-bold">π</span> <sub>au_fname, au_lname</sub> (authors)</span>
+                                <span class="text-xs text-slate-500">Álgebra Relacional</span>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center"><span class="text-xs font-bold text-slate-400">Expresión LINQ (C#):</span> <button onclick="copyCode('code-pro1')" class="text-xs text-slate-400 hover:text-white transition"><i class="fa-regular fa-copy"></i> Copiar</button></div>
+                                <pre id="code-pro1" class="bg-slate-900 border border-slate-800 p-4 rounded-xl text-xs font-mono text-slate-300 overflow-x-auto"><span class="text-brand-500">var</span> resultado = context.Authors
+                       .Select(a => <span class="text-brand-500">new</span> { a.AuFname, a.AuLname })
+                       .ToList();</pre>
+                            </div>
+                        </div>
+
+                        <div class="bg-brand-cardBg/50 border border-slate-800 rounded-2xl p-6 space-y-4">
+                            <div class="flex justify-between items-start">
+                                <span class="bg-brand-900/50 border border-brand-700/50 text-brand-100 px-2.5 py-1 rounded text-xs font-bold">2.2.2 Ejercicio 2 de Proyección</span>
+                                <span class="text-xs text-brand-accent font-bold font-mono">π (Ciudades Distintas)</span>
+                            </div>
+                            <h4 class="text-base font-bold text-white">Listar las ciudades de residencia de los autores de forma única (eliminando duplicados)</h4>
+                            <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 flex items-center justify-between font-mono text-xs sm:text-sm text-slate-300">
+                                <span><span class="text-brand-gold font-bold">π</span> <sub>city</sub> (authors)</span>
+                                <span class="text-xs text-slate-500">Álgebra Relacional</span>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center"><span class="text-xs font-bold text-slate-400">Expresión LINQ (C#):</span> <button onclick="copyCode('code-pro2')" class="text-xs text-slate-400 hover:text-white transition"><i class="fa-regular fa-copy"></i> Copiar</button></div>
+                                <pre id="code-pro2" class="bg-slate-900 border border-slate-800 p-4 rounded-xl text-xs font-mono text-slate-300 overflow-x-auto"><span class="text-brand-500">var</span> resultado = context.Authors
+                       .Select(a => a.City)
+                       .Distinct()
+                       .Select(c => <span class="text-brand-500">new</span> { CiudadUnica = c })
+                       .ToList();</pre>
+                            </div>
+                        </div>
+
+                        <div class="bg-brand-cardBg/50 border border-slate-800 rounded-2xl p-6 space-y-4">
+                            <div class="flex justify-between items-start">
+                                <span class="bg-brand-900/50 border border-brand-700/50 text-brand-100 px-2.5 py-1 rounded text-xs font-bold">2.2.3 Ejercicio 3 de Proyección</span>
+                                <span class="text-xs text-brand-accent font-bold font-mono">π (Tipos de Libros)</span>
+                            </div>
+                            <h4 class="text-base font-bold text-white">Obtener el catálogo de categorías o géneros de libros existentes de forma única</h4>
+                            <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 flex items-center justify-between font-mono text-xs sm:text-sm text-slate-300">
+                                <span><span class="text-brand-gold font-bold">π</span> <sub>type</sub> (titles)</span>
+                                <span class="text-xs text-slate-500">Álgebra Relacional</span>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center"><span class="text-xs font-bold text-slate-400">Expresión LINQ (C#):</span> <button onclick="copyCode('code-pro3')" class="text-xs text-slate-400 hover:text-white transition"><i class="fa-regular fa-copy"></i> Copiar</button></div>
+                                <pre id="code-pro3" class="bg-slate-900 border border-slate-800 p-4 rounded-xl text-xs font-mono text-slate-300 overflow-x-auto"><span class="text-brand-500">var</span> resultado = context.Titles
+                       .Select(t => t.Type)
+                       .Distinct()
+                       .Select(t => <span class="text-brand-500">new</span> { Categoria = t })
+                       .ToList();</pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="content-unaria-renombramiento" class="tab-content hidden space-y-6">
+                        <div class="bg-brand-cardBg/50 border border-slate-800 rounded-2xl p-6 space-y-4">
+                            <div class="flex justify-between items-start">
+                                <span class="bg-brand-900/50 border border-brand-700/50 text-brand-100 px-2.5 py-1 rounded text-xs font-bold">2.3.1 Ejercicio 1 de Renombramiento</span>
+                                <span class="text-xs text-brand-accent font-bold font-mono">ρ (Campos en Español)</span>
+                            </div>
+                            <h4 class="text-base font-bold text-white">Modificar cabeceras de columnas a etiquetas explícitas en español (Nombre, Apellido)</h4>
+                            <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 flex items-center justify-between font-mono text-xs sm:text-sm text-slate-300">
+                                <span><span class="text-brand-accent font-bold">ρ</span> <sub>Nombre &larr; au_fname, Apellido &larr; au_lname</sub> (authors)</span>
+                                <span class="text-xs text-slate-500">Álgebra Relacional</span>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center"><span class="text-xs font-bold text-slate-400">Expresión LINQ (C#):</span> <button onclick="copyCode('code-ren1')" class="text-xs text-slate-400 hover:text-white transition"><i class="fa-regular fa-copy"></i> Copiar</button></div>
+                                <pre id="code-ren1" class="bg-slate-900 border border-slate-800 p-4 rounded-xl text-xs font-mono text-slate-300 overflow-x-auto"><span class="text-brand-500">var</span> resultado = context.Authors
+                       .Select(a => <span class="text-brand-500">new</span> { Nombre = a.AuFname, Apellido = a.AuLname })
+                       .ToList();</pre>
+                            </div>
+                        </div>
+
+                        <div class="bg-brand-cardBg/50 border border-slate-800 rounded-2xl p-6 space-y-4">
+                            <div class="flex justify-between items-start">
+                                <span class="bg-brand-900/50 border border-brand-700/50 text-brand-100 px-2.5 py-1 rounded text-xs font-bold">2.3.2 Ejercicio 2 de Renombramiento</span>
+                                <span class="text-xs text-brand-accent font-bold font-mono">ρ (Atributos de Integración)</span>
+                            </div>
+                            <h4 class="text-base font-bold text-white">Modificar las columnas de identificación de libros para interfaces de integración (Codigo, NombreLibro)</h4>
+                            <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 flex items-center justify-between font-mono text-xs sm:text-sm text-slate-300">
+                                <span><span class="text-brand-accent font-bold">ρ</span> <sub>Codigo &larr; title_id, NombreLibro &larr; title</sub> (titles)</span>
+                                <span class="text-xs text-slate-500">Álgebra Relacional</span>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center"><span class="text-xs font-bold text-slate-400">Expresión LINQ (C#):</span> <button onclick="copyCode('code-ren2')" class="text-xs text-slate-400 hover:text-white transition"><i class="fa-regular fa-copy"></i> Copiar</button></div>
+                                <pre id="code-ren2" class="bg-slate-900 border border-slate-800 p-4 rounded-xl text-xs font-mono text-slate-300 overflow-x-auto"><span class="text-brand-500">var</span> resultado = context.Titles
+                       .Select(t => <span class="text-brand-500">new</span> { Codigo = t.TitleId, NombreLibro = t.Title })
+                       .ToList();</pre>
+                            </div>
+                        </div>
+
+                        <div class="bg-brand-cardBg/50 border border-slate-800 rounded-2xl p-6 space-y-4">
+                            <div class="flex justify-between items-start">
+                                <span class="bg-brand-900/50 border border-brand-700/50 text-brand-100 px-2.5 py-1 rounded text-xs font-bold">2.3.3 Ejercicio 3 de Renombramiento</span>
+                                <span class="text-xs text-brand-accent font-bold font-mono">ρ (Ingresos Proyectados)</span>
+                            </div>
+                            <h4 class="text-base font-bold text-white">Proyectar el título y calcular un estimado financiero bajo el alias 'IngresoEstimado'</h4>
+                            <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 flex items-center justify-between font-mono text-xs sm:text-sm text-slate-300">
+                                <span><span class="text-brand-accent font-bold">ρ</span> <sub>Titulo &larr; title, IngresoEstimado &larr; (price &times; ytd_sales)</sub> (...)</span>
+                                <span class="text-xs text-slate-500">Álgebra Relacional</span>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center"><span class="text-xs font-bold text-slate-400">Expresión LINQ (C#):</span> <button onclick="copyCode('code-ren3')" class="text-xs text-slate-400 hover:text-white transition"><i class="fa-regular fa-copy"></i> Copiar</button></div>
+                                <pre id="code-ren3" class="bg-slate-900 border border-slate-800 p-4 rounded-xl text-xs font-mono text-slate-300 overflow-x-auto"><span class="text-brand-500">var</span> resultado = context.Titles
+                       .Where(t => t.Price != <span class="text-brand-500">null</span> && t.YtdSales != <span class="text-brand-500">null</span>)
+                       .Select(t => <span class="text-brand-500">new</span> { 
+                           Titulo = t.Title, 
+                           IngresoEstimado = t.Price * t.YtdSales 
+                       })
+                       .ToList();</pre>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="lg:col-span-4 space-y-6">
+                    <div class="bg-[#0f1930] border-2 border-brand-600 rounded-3xl p-6 glow-indigo sticky top-24 space-y-6">
+                        <div class="flex items-center space-x-2 text-brand-accent">
+                            <span class="w-2.5 h-2.5 rounded-full bg-brand-accent animate-ping"></span>
+                            <h4 class="text-xs font-extrabold uppercase tracking-wider">Simulador Unario Activo</h4>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed text-justify">
+                            Interactúe con la botonera dinámica de control inferior para visualizar cómo cambian las tuplas en tiempo real y cómo los datos se procesan localmente.
+                        </p>
+
+                        <div class="bg-slate-900 rounded-2xl p-4 border border-slate-800 space-y-4">
+                            <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                                <span class="text-xs font-bold text-slate-400">Resultado Visual</span>
+                                <span id="sim-operator" class="text-[10px] bg-brand-900 text-brand-100 font-mono font-bold px-2 py-0.5 rounded">σ Selección</span>
+                            </div>
+                            <div class="overflow-x-auto max-h-[250px]">
+                                <table class="w-full text-[11px] text-left text-slate-300 font-mono" id="sim-table"></table>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3" id="sim-controls-pane"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="binarias-seccion" class="space-y-8 pt-6">
+            <div class="border-l-4 border-emerald-500 pl-4 space-y-2">
+                <h2 class="text-2xl font-black tracking-tight text-white flex items-center gap-2">
+                    3. Implementación de Operaciones Binarias <span class="text-xs bg-emerald-950 text-emerald-300 px-2 py-1 rounded">3 Ejercicios</span>
+                </h2>
+                <p class="text-sm text-slate-400">Consultas algebraicas fundamentadas en teoría de conjuntos aplicadas a múltiples relaciones.</p>
+            </div>
+
+            <div class="flex border-b border-slate-800 overflow-x-auto">
+                <button onclick="switchTab('binaria', 'union')" id="tab-binaria-union" class="tab-btn py-4 px-6 text-sm font-bold text-emerald-400 border-b-2 border-emerald-400 flex items-center gap-2 transition whitespace-nowrap">
+                    <span class="text-lg">∪</span> 3.1 Unión
+                </button>
+                <button onclick="switchTab('binaria', 'diferencia')" id="tab-binaria-diferencia" class="tab-btn py-4 px-6 text-sm font-bold text-slate-400 hover:text-white flex items-center gap-2 transition whitespace-nowrap">
+                    <span class="text-lg">−</span> 3.2 Diferencia
+                </button>
+                <button onclick="switchTab('binaria', 'cartesiano')" id="tab-binaria-cartesiano" class="tab-btn py-4 px-6 text-sm font-bold text-slate-400 hover:text-white flex items-center gap-2 transition whitespace-nowrap">
+                    <span class="text-lg">×</span> 3.3 Producto Cartesiano
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-8 space-y-6">
+
+                    <div id="content-binaria-union" class="tab-content space-y-6">
+                        <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-6 space-y-4">
+                            <div class="flex justify-between items-start">
+                                <span class="bg-emerald-950 text-emerald-300 border border-emerald-800 px-2.5 py-1 rounded text-xs font-bold font-mono">3.1.1 Ejercicio 1 de Unión</span>
+                                <span class="text-xs text-emerald-400 font-bold font-mono">∪ (Ciudades Integradas)</span>
+                            </div>
+                            <h4 class="text-base font-bold text-white">Combinar las ciudades de residencia de los autores con las de localización de las editoriales</h4>
+                            <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 flex items-center justify-between font-mono text-xs sm:text-sm text-slate-300">
+                                <span><span class="text-brand-gold font-bold">π</span> <sub>city</sub> (authors) <span class="text-emerald-400 font-bold">∪</span> <span class="text-brand-gold font-bold">π</span> <sub>city</sub> (publishers)</span>
+                                <span class="text-xs text-slate-500">Álgebra Relacional</span>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center"><span class="text-xs font-bold text-slate-400">Expresión LINQ (C#):</span> <button onclick="copyCode('code-uni1')" class="text-xs text-slate-400 hover:text-white transition"><i class="fa-regular fa-copy"></i> Copiar</button></div>
+                                <pre id="code-uni1" class="bg-slate-900 border border-slate-800 p-4 rounded-xl text-xs font-mono text-slate-300 overflow-x-auto"><span class="text-brand-500">var</span> ciudadesAutores = context.Authors.Select(a => <span class="text-brand-500">new</span> { Ciudad = a.City });
+<span class="text-brand-500">var</span> ciudadesEditoriales = context.Publishers.Select(p => <span class="text-brand-500">new</span> { Ciudad = p.City });
+
+<span class="text-brand-500">var</span> resultado = ciudadesAutores.Union(ciudadesEditoriales).ToList();</pre>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-6 space-y-4">
+                            <div class="flex justify-between items-start">
+                                <span class="bg-emerald-950 text-emerald-300 border border-emerald-800 px-2.5 py-1 rounded text-xs font-bold font-mono">3.1.2 Ejercicio 2 de Unión</span>
+                                <span class="text-xs text-emerald-400 font-bold font-mono">∪ (Autores CA y UT)</span>
+                            </div>
+                            <h4 class="text-base font-bold text-white">Unir autores que residen en California (CA) con autores que residen en Utah (UT)</h4>
+                            <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 flex items-center justify-between font-mono text-xs sm:text-sm text-slate-300">
+                                <span><span class="text-brand-500 font-bold">σ</span> <sub>state = 'CA'</sub> (authors) <span class="text-emerald-400 font-bold">∪</span> <span class="text-brand-500 font-bold">σ</span> <sub>state = 'UT'</sub> (authors)</span>
+                                <span class="text-xs text-slate-500">Álgebra Relacional</span>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center"><span class="text-xs font-bold text-slate-400">Expresión LINQ (C#):</span> <button onclick="copyCode('code-uni2')" class="text-xs text-slate-400 hover:text-white transition"><i class="fa-regular fa-copy"></i> Copiar</button></div>
+                                <pre id="code-uni2" class="bg-slate-900 border border-slate-800 p-4 rounded-xl text-xs font-mono text-slate-300 overflow-x-auto"><span class="text-brand-500">var</span> autoresCA = context.Authors.Where(a => a.State == <span class="text-brand-accent">"CA"</span>);
+<span class="text-brand-500">var</span> autoresUT = context.Authors.Where(a => a.State == <span class="text-brand-accent">"UT"</span>);
+
+<span class="text-brand-500">var</span> resultado = autoresCA.Union(autoresUT).ToList();</pre>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-6 space-y-4">
+                            <div class="flex justify-between items-start">
+                                <span class="bg-emerald-950 text-emerald-300 border border-emerald-800 px-2.5 py-1 rounded text-xs font-bold font-mono">3.1.3 Ejercicio 3 de Unión</span>
+                                <span class="text-xs text-emerald-400 font-bold font-mono">∪ (Premium o Altas Ventas)</span>
+                            </div>
+                            <h4 class="text-base font-bold text-white">Unificar los libros con precio premium (&gt; $20) con libros que poseen altos volúmenes de venta (&gt; 5,000)</h4>
+                            <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 flex items-center justify-between font-mono text-xs sm:text-sm text-slate-300">
+                                <span><span class="text-brand-500 font-bold">σ</span> <sub>price &gt; 20</sub> (titles) <span class="text-emerald-400 font-bold">∪</span> <span class="text-brand-500 font-bold">σ</span> <sub>ytd_sales &gt; 5000</sub> (titles)</span>
+                                <span class="text-xs text-slate-500">Álgebra Relacional</span>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center"><span class="text-xs font-bold text-slate-400">Expresión LINQ (C#):</span> <button onclick="copyCode('code-uni3')" class="text-xs text-slate-400 hover:text-white transition"><i class="fa-regular fa-copy"></i> Copiar</button></div>
+                                <pre id="code-uni3" class="bg-slate-900 border border-slate-800 p-4 rounded-xl text-xs font-mono text-slate-300 overflow-x-auto"><span class="text-brand-500">var</span> caros = context.Titles.Where(t => t.Price > <span class="text-brand-accent">20.00m</span>);
+<span class="text-brand-500">var</span> vendidos = context.Titles.Where(t => t.YtdSales > <span class="text-brand-accent">5000</span>);
+
+<span class="text-brand-500">var</span> resultado = caros.Union(vendidos).ToList();</pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="content-binaria-diferencia" class="tab-content hidden space-y-6">
+                        <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-6 space-y-4">
+                            <div class="flex justify-between items-start">
+                                <span class="bg-emerald-950 text-emerald-300 border border-emerald-800 px-2.5 py-1 rounded text-xs font-bold font-mono">3.2.1 Ejercicio 1 de Diferencia</span>
+                                <span class="text-xs text-emerald-400 font-bold font-mono">− (Áreas sin Distribución)</span>
+                            </div>
+                            <h4 class="text-base font-bold text-white">Ciudades que cuentan con autores residentes pero no poseen casas editoras instaladas</h4>
+                            <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 flex items-center justify-between font-mono text-xs sm:text-sm text-slate-300">
+                                <span><span class="text-brand-gold font-bold">π</span> <sub>city</sub> (authors) <span class="text-red-400 font-bold">−</span> <span class="text-brand-gold font-bold">π</span> <sub>city</sub> (publishers)</span>
+                                <span class="text-xs text-slate-500">Álgebra Relacional</span>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center"><span class="text-xs font-bold text-slate-400">Expresión LINQ (C#):</span> <button onclick="copyCode('code-dif1')" class="text-xs text-slate-400 hover:text-white transition"><i class="fa-regular fa-copy"></i> Copiar</button></div>
+                                <pre id="code-dif1" class="bg-slate-900 border border-slate-800 p-4 rounded-xl text-xs font-mono text-slate-300 overflow-x-auto"><span class="text-brand-500">var</span> ciudadesAutores = context.Authors.Select(a => a.City).Distinct();
+<span class="text-brand-500">var</span> ciudadesEditoriales = context.Publishers.Select(p => p.City).Distinct();
+
+<span class="text-brand-500">var</span> resultado = ciudadesAutores.Except(ciudadesEditoriales)
+                               .Select(c => <span class="text-brand-500">new</span> { CiudadSinEditorial = c })
+                               .ToList();</pre>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-6 space-y-4">
+                            <div class="flex justify-between items-start">
+                                <span class="bg-emerald-950 text-emerald-300 border border-emerald-800 px-2.5 py-1 rounded text-xs font-bold font-mono">3.2.2 Ejercicio 2 de Diferencia</span>
+                                <span class="text-xs text-emerald-400 font-bold font-mono">− (Libros no Business)</span>
+                            </div>
+                            <h4 class="text-base font-bold text-white">Catálogo completo de libros de la editorial excluyendo los que pertenecen a la categoría 'business'</h4>
+                            <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 flex items-center justify-between font-mono text-xs sm:text-sm text-slate-300">
+                                <span>titles <span class="text-red-400 font-bold">−</span> <span class="text-brand-500 font-bold">σ</span> <sub>type = 'business'</sub> (titles)</span>
+                                <span class="text-xs text-slate-500">Álgebra Relacional</span>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center"><span class="text-xs font-bold text-slate-400">Expresión LINQ (C#):</span> <button onclick="copyCode('code-dif2')" class="text-xs text-slate-400 hover:text-white transition"><i class="fa-regular fa-copy"></i> Copiar</button></div>
+                                <pre id="code-dif2" class="bg-slate-900 border border-slate-800 p-4 rounded-xl text-xs font-mono text-slate-300 overflow-x-auto"><span class="text-brand-500">var</span> todosLosLibros = context.Titles;
+<span class="text-brand-500">var</span> librosBusiness = context.Titles.Where(t => t.Type.Trim() == <span class="text-brand-accent">"business"</span>);
+
+<span class="text-brand-500">var</span> resultado = todosLosLibros.Except(librosBusiness).ToList();</pre>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-6 space-y-4">
+                            <div class="flex justify-between items-start">
+                                <span class="bg-emerald-950 text-emerald-300 border border-emerald-800 px-2.5 py-1 rounded text-xs font-bold font-mono">3.2.3 Ejercicio 3 de Diferencia</span>
+                                <span class="text-xs text-emerald-400 font-bold font-mono">− (Contratos fuera de CA)</span>
+                            </div>
+                            <h4 class="text-base font-bold text-white">Autores que poseen un contrato vigente actualmente, excluyendo a los que viven en California (CA)</h4>
+                            <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 flex items-center justify-between font-mono text-xs sm:text-sm text-slate-300">
+                                <span><span class="text-brand-500 font-bold">σ</span> <sub>contract = 1</sub> (authors) <span class="text-red-400 font-bold">−</span> <span class="text-brand-500 font-bold">σ</span> <sub>state = 'CA'</sub> (authors)</span>
+                                <span class="text-xs text-slate-500">Álgebra Relacional</span>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center"><span class="text-xs font-bold text-slate-400">Expresión LINQ (C#):</span> <button onclick="copyCode('code-dif3')" class="text-xs text-slate-400 hover:text-white transition"><i class="fa-regular fa-copy"></i> Copiar</button></div>
+                                <pre id="code-dif3" class="bg-slate-900 border border-slate-800 p-4 rounded-xl text-xs font-mono text-slate-300 overflow-x-auto"><span class="text-brand-500">var</span> conContrato = context.Authors.Where(a => a.Contract == <span class="text-brand-500">true</span>);
+<span class="text-brand-500">var</span> vivenEnCA = context.Authors.Where(a => a.State == <span class="text-brand-accent">"CA"</span>);
+
+<span class="text-brand-500">var</span> resultado = conContrato.Except(vivenEnCA).ToList();</pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="content-binaria-cartesiano" class="tab-content hidden space-y-6">
+                        <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-6 space-y-4">
+                            <div class="flex justify-between items-start">
+                                <span class="bg-emerald-950 text-emerald-300 border border-emerald-800 px-2.5 py-1 rounded text-xs font-bold font-mono">3.3.1 Ejercicio 1 de Producto Cartesiano</span>
+                                <span class="text-xs text-emerald-400 font-bold font-mono">× (Autores × Editoriales)</span>
+                            </div>
+                            <h4 class="text-base font-bold text-white">Matriz cruzada total (Cross Join) entre todos los autores y el catálogo completo de editoriales</h4>
+                            <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 flex items-center justify-between font-mono text-xs sm:text-sm text-slate-300">
+                                <span><span class="text-brand-gold font-bold">π</span> <sub>au_fname, au_lname</sub> (authors) <span class="text-blue-400 font-bold">×</span> <span class="text-brand-gold font-bold">π</span> <sub>pub_name</sub> (publishers)</span>
+                                <span class="text-xs text-slate-500">Álgebra Relacional</span>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center"><span class="text-xs font-bold text-slate-400">Expresión LINQ (C#):</span> <button onclick="copyCode('code-car1')" class="text-xs text-slate-400 hover:text-white transition"><i class="fa-regular fa-copy"></i> Copiar</button></div>
+                                <pre id="code-car1" class="bg-slate-900 border border-slate-800 p-4 rounded-xl text-xs font-mono text-slate-300 overflow-x-auto"><span class="text-brand-500">var</span> resultado = (<span class="text-brand-500">from</span> a <span class="text-brand-500">in</span> context.Authors
+                 <span class="text-brand-500">from</span> p <span class="text-brand-500">in</span> context.Publishers
+                 <span class="text-brand-500">select new</span> 
+                 {
+                     Autor = a.AuFname + <span class="text-brand-accent">" "</span> + a.AuLname,
+                     Editorial = p.PubName
+                 }).ToList();</pre>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-6 space-y-4">
+                            <div class="flex justify-between items-start">
+                                <span class="bg-emerald-950 text-emerald-300 border border-emerald-800 px-2.5 py-1 rounded text-xs font-bold font-mono">3.3.2 Ejercicio 2 de Producto Cartesiano</span>
+                                <span class="text-xs text-emerald-400 font-bold font-mono">× (Tiendas × Categorías)</span>
+                            </div>
+                            <h4 class="text-base font-bold text-white">Cruzamiento combinatorio total entre la totalidad de tiendas físicas con los géneros de libros</h4>
+                            <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 flex items-center justify-between font-mono text-xs sm:text-sm text-slate-300">
+                                <span><span class="text-brand-gold font-bold">π</span> <sub>stor_name</sub> (stores) <span class="text-blue-400 font-bold">×</span> <span class="text-brand-gold font-bold">π</span> <sub>type</sub> (titles)</span>
+                                <span class="text-xs text-slate-500">Álgebra Relacional</span>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center"><span class="text-xs font-bold text-slate-400">Expresión LINQ (C#):</span> <button onclick="copyCode('code-car2')" class="text-xs text-slate-400 hover:text-white transition"><i class="fa-regular fa-copy"></i> Copiar</button></div>
+                                <pre id="code-car2" class="bg-slate-900 border border-slate-800 p-4 rounded-xl text-xs font-mono text-slate-300 overflow-x-auto"><span class="text-brand-500">var</span> tiposUnicos = context.Titles.Select(t => t.Type).Distinct();
+
+<span class="text-brand-500">var</span> resultado = (<span class="text-brand-500">from</span> s <span class="text-brand-500">in</span> context.Stores
+                 <span class="text-brand-500">from</span> t <span class="text-brand-500">in</span> tiposUnicos
+                 <span class="text-brand-500">select new</span> 
+                 {
+                     Tienda = s.StorName,
+                     CategoriaProducto = t
+                 }).ToList();</pre>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-6 space-y-4">
+                            <div class="flex justify-between items-start">
+                                <span class="bg-emerald-950 text-emerald-300 border border-emerald-800 px-2.5 py-1 rounded text-xs font-bold font-mono">3.3.3 Ejercicio 3 de Producto Cartesiano</span>
+                                <span class="text-xs text-emerald-400 font-bold font-mono">× (Personal × Compañías)</span>
+                            </div>
+                            <h4 class="text-base font-bold text-white">Combinatoria de distribución entre los empleados de la organización y el listado de editoriales activas</h4>
+                            <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 flex items-center justify-between font-mono text-xs sm:text-sm text-slate-300">
+                                <span><span class="text-brand-gold font-bold">π</span> <sub>lname</sub> (employee) <span class="text-blue-400 font-bold">×</span> <span class="text-brand-gold font-bold">π</span> <sub>pub_name</sub> (publishers)</span>
+                                <span class="text-xs text-slate-500">Álgebra Relacional</span>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center"><span class="text-xs font-bold text-slate-400">Expresión LINQ (C#):</span> <button onclick="copyCode('code-car3')" class="text-xs text-slate-400 hover:text-white transition"><i class="fa-regular fa-copy"></i> Copiar</button></div>
+                                <pre id="code-car3" class="bg-slate-900 border border-slate-800 p-4 rounded-xl text-xs font-mono text-slate-300 overflow-x-auto"><span class="text-brand-500">var</span> resultado = (<span class="text-brand-500">from</span> e <span class="text-brand-500">in</span> context.Employee
+                 <span class="text-brand-500">from</span> p <span class="text-brand-500">in</span> context.Publishers
+                 <span class="text-brand-500">select new</span> 
+                 {
+                     ApellidoEmpleado = e.Lname,
+                     CompaniaEditorial = p.PubName
+                 }).ToList();</pre>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="lg:col-span-4 space-y-6">
+                    <div class="bg-[#0b1b2f] border-2 border-emerald-600 rounded-3xl p-6 glow-emerald sticky top-24 space-y-6">
+                        <div class="flex items-center space-x-2 text-emerald-400">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                            <h4 class="text-xs font-extrabold uppercase tracking-wider">Simulador Conjuntista Binario</h4>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed text-justify">
+                            Audite de forma visual el comportamiento de las operaciones de conjuntos (∪, −, ×) sobre datos estáticos simulados de la base de datos Pubs.
+                        </p>
+
+                        <div class="bg-slate-900 rounded-2xl p-4 border border-slate-800 space-y-4">
+                            <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                                <span class="text-xs font-bold text-slate-400">Salida de Datos</span>
+                                <span id="sim-bin-operator" class="text-[10px] bg-emerald-950 text-emerald-300 font-mono font-bold px-2 py-0.5 rounded">∪ Unión</span>
+                            </div>
+                            <div class="overflow-x-auto max-h-[250px]">
+                                <table class="w-full text-[11px] text-left text-slate-300 font-mono" id="sim-bin-table"></table>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3" id="sim-bin-controls-pane"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-[#0b1120] border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-8">
+            <div class="space-y-2 border-b border-slate-800 pb-4">
+                <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-desktop text-brand-gold"></i> Interfaz en Localhost: Distribución de Controles en Visual Studio
+                </h3>
+                <p class="text-xs text-slate-400">Distribución física de los 18 botones de control de eventos implementados del formulario principal (<code>Form1.cs</code>) del proyecto Windows Forms.</p>
+            </div>
+
+            <div class="bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
+                <div class="bg-slate-900 px-4 py-2.5 flex items-center justify-between border-b border-slate-800">
+                    <div class="flex items-center space-x-2">
+                        <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
+                        <span class="w-3 h-3 rounded-full bg-yellow-500/80"></span>
+                        <span class="w-3 h-3 rounded-full bg-green-500/80"></span>
+                        <span class="text-xs text-slate-400 font-bold ml-2">LabAlgebraRelacional - Form1.cs [Localhost]</span>
+                    </div>
+                    <span class="text-[10px] text-brand-accent bg-emerald-950 border border-emerald-800 px-2 py-0.5 rounded font-bold font-mono">EJECUTÁNDOSE</span>
+                </div>
+
+                <div class="p-6 space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-brand-cardBg/40 border border-slate-800 rounded-xl p-4 space-y-4">
+                            <h4 class="text-xs font-black uppercase text-brand-500 tracking-wider flex items-center gap-1.5">
+                                <i class="fa-solid fa-folder-open"></i> Controles Unarios (9 Botones)
+                            </h4>
+                            <div class="grid grid-cols-3 gap-2">
+                                <div class="bg-slate-900 border border-slate-800 p-2 rounded-lg text-center space-y-1.5">
+                                    <span class="text-[9px] text-slate-400 block font-bold border-b border-slate-800 pb-1">Selección</span>
+                                    <button class="w-full bg-slate-800 border border-slate-700 rounded py-1 text-[8px] font-mono text-slate-300 hover:bg-slate-700 transition">btnSeleccion1</button>
+                                    <button class="w-full bg-slate-800 border border-slate-700 rounded py-1 text-[8px] font-mono text-slate-300 hover:bg-slate-700 transition">btnSeleccion2</button>
+                                    <button class="w-full bg-slate-800 border border-slate-700 rounded py-1 text-[8px] font-mono text-slate-300 hover:bg-slate-700 transition">btnSeleccion3</button>
+                                </div>
+                                <div class="bg-slate-900 border border-slate-800 p-2 rounded-lg text-center space-y-1.5">
+                                    <span class="text-[9px] text-slate-400 block font-bold border-b border-slate-800 pb-1">Proyección</span>
+                                    <button class="w-full bg-slate-800 border border-slate-700 rounded py-1 text-[8px] font-mono text-slate-300 hover:bg-slate-700 transition">btnProyeccion1</button>
+                                    <button class="w-full bg-slate-800 border border-slate-700 rounded py-1 text-[8px] font-mono text-slate-300 hover:bg-slate-700 transition">btnProyeccion2</button>
+                                    <button class="w-full bg-slate-800 border border-slate-700 rounded py-1 text-[8px] font-mono text-slate-300 hover:bg-slate-700 transition">btnProyeccion3</button>
+                                </div>
+                                <div class="bg-slate-900 border border-slate-800 p-2 rounded-lg text-center space-y-1.5">
+                                    <span class="text-[9px] text-slate-400 block font-bold border-b border-slate-800 pb-1">Renombrar</span>
+                                    <button class="w-full bg-slate-800 border border-slate-700 rounded py-1 text-[8px] font-mono text-slate-300 hover:bg-slate-700 transition">btnRenombrar1</button>
+                                    <button class="w-full bg-slate-800 border border-slate-700 rounded py-1 text-[8px] font-mono text-slate-300 hover:bg-slate-700 transition">btnRenombrar2</button>
+                                    <button class="w-full bg-slate-800 border border-slate-700 rounded py-1 text-[8px] font-mono text-slate-300 hover:bg-slate-700 transition">btnRenombrar3</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-brand-cardBg/40 border border-slate-800 rounded-xl p-4 space-y-4">
+                            <h4 class="text-xs font-black uppercase text-emerald-400 tracking-wider flex items-center gap-1.5">
+                                <i class="fa-solid fa-code-merge"></i> Controles Binarios (9 Botones)
+                            </h4>
+                            <div class="grid grid-cols-3 gap-2">
+                                <div class="bg-slate-900 border border-slate-800 p-2 rounded-lg text-center space-y-1.5">
+                                    <span class="text-[9px] text-slate-400 block font-bold border-b border-slate-800 pb-1">Unión</span>
+                                    <button class="w-full bg-slate-800 border border-slate-700 rounded py-1 text-[8px] font-mono text-slate-300 hover:bg-slate-700 transition">btnUnion1</button>
+                                    <button class="w-full bg-slate-800 border border-slate-700 rounded py-1 text-[8px] font-mono text-slate-300 hover:bg-slate-700 transition">btnUnion2</button>
+                                    <button class="w-full bg-slate-800 border border-slate-700 rounded py-1 text-[8px] font-mono text-slate-300 hover:bg-slate-700 transition">btnUnion3</button>
+                                </div>
+                                <div class="bg-slate-900 border border-slate-800 p-2 rounded-lg text-center space-y-1.5">
+                                    <span class="text-[9px] text-slate-400 block font-bold border-b border-slate-800 pb-1">Diferencia</span>
+                                    <button class="w-full bg-slate-800 border border-slate-700 rounded py-1 text-[8px] font-mono text-slate-300 hover:bg-slate-700 transition">btnDiferencia1</button>
+                                    <button class="w-full bg-slate-800 border border-slate-700 rounded py-1 text-[8px] font-mono text-slate-300 hover:bg-slate-700 transition">btnDiferencia2</button>
+                                    <button class="w-full bg-slate-800 border border-slate-700 rounded py-1 text-[8px] font-mono text-slate-300 hover:bg-slate-700 transition">btnDiferencia3</button>
+                                </div>
+                                <div class="bg-slate-900 border border-slate-800 p-2 rounded-lg text-center space-y-1.5">
+                                    <span class="text-[9px] text-slate-400 block font-bold border-b border-slate-800 pb-1">Cartesiano</span>
+                                    <button class="w-full bg-slate-800 border border-slate-700 rounded py-1 text-[8px] font-mono text-slate-300 hover:bg-slate-700 transition">btnCartesiano1</button>
+                                    <button class="w-full bg-slate-800 border border-slate-700 rounded py-1 text-[8px] font-mono text-slate-300 hover:bg-slate-700 transition">btnCartesiano2</button>
+                                    <button class="w-full bg-slate-800 border border-slate-700 rounded py-1 text-[8px] font-mono text-slate-300 hover:bg-slate-700 transition">btnCartesiano3</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900 rounded-xl border border-slate-800 p-4 space-y-3">
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="font-bold text-slate-400 flex items-center gap-1.5"><i class="fa-solid fa-table-cells"></i> Control Rejilla central: DataGridView (dgvResultados)</span>
+                            <span class="text-[9px] text-slate-500 font-mono">DataSource = resultado</span>
+                        </div>
+                        <div class="border border-slate-800 rounded-lg overflow-hidden">
+                            <table class="w-full text-left text-xs text-slate-400 font-mono">
+                                <thead class="bg-slate-850 text-slate-300">
+                                    <tr>
+                                        <th class="p-2 border-b border-slate-800">Atributo_Columna_A</th>
+                                        <th class="p-2 border-b border-slate-800">Atributo_Columna_B</th>
+                                        <th class="p-2 border-b border-slate-800">Atributo_Columna_C</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="p-2 border-b border-slate-800/40 text-slate-500">Valor_Celda_A1</td>
+                                        <td class="p-2 border-b border-slate-800/40 text-slate-500">Valor_Celda_B1</td>
+                                        <td class="p-2 border-b border-slate-800/40 text-slate-500">Valor_Celda_C1</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2 text-slate-500">Valor_Celda_A2</td>
+                                        <td class="p-2 text-slate-500">Valor_Celda_B2</td>
+                                        <td class="p-2 text-slate-500">Valor_Celda_C2</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-gradient-to-tr from-[#0d1c1a] to-brand-darkBg border border-emerald-900/30 rounded-3xl p-6 sm:p-8 space-y-4 glow-emerald">
+            <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-lightbulb text-brand-gold animate-bounce"></i> Gran Conclusión del Laboratorio
+            </h3>
+            <p class="text-slate-300 text-xs sm:text-sm leading-relaxed text-justify">
+                El desarrollo e implementación de este proyecto demostró de manera empírica la <strong>convergencia absoluta</strong> que existe entre el formalismo matemático del Álgebra Relacional y el desarrollo de software moderno mediante Entity Framework Core y LINQ sobre la base de datos Pubs. Se validó con rigor científico que las operaciones unarias y binarias abstractas poseen un homólogo declarativo directo en C# (donde la Selección σ se mapea mediante predicados en <code>.Where()</code>, la Proyección π a través de restricciones en <code>.Select()</code>, y las operaciones conjuntistas de Unión ∪ y Diferencia − mediante <code>.Union()</code> y <code>.Except()</code>), encontrando en los <strong>Tipos Anónimos</strong> la resolución más elegante para el operador de Renombramiento (ρ). Asimismo, la arquitectura interactiva estructurada en Windows Forms con 18 botones independientes conectados a un único DataGridView no solo evidenció la capacidad del ORM para resolver de forma implícita la compatibilidad de esquemas y optimizar consultas complejas como el Producto Cartesiano (×), sino que constituyó la estrategia metodológica ideal para la sustentación en <strong>localhost</strong>, garantizando una comunicación técnica fluida, una validación gráfica inmediata del procesamiento de datos y una participación activa y equitativa de todos los miembros del equipo frente a los indicadores de evaluación del laboratorio.
+            </p>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-slate-800 bg-brand-darkBg py-8 text-center text-xs text-slate-500 space-y-2">
+        <p>© 2026 Escuela Profesional de Ingeniería de Sistemas - UAC. Cusco, Perú.</p>
+        <p class="text-brand-accent font-mono font-bold">"Los Mohamad Ali Yantal" • Aldhair Emerson, Gianfrando Maximiliano, Bastian Nefi, Frank</p>
+    </footer>
+
+    <div id="toast" class="fixed bottom-5 right-5 bg-brand-accent text-white font-bold text-xs px-4 py-3 rounded-xl shadow-lg transform translate-y-20 opacity-0 transition duration-350 z-50 flex items-center gap-2">
+        <i class="fa-solid fa-circle-check"></i> Expresión de código copiada con éxito
+    </div>
+
+    <script>
+        const authorsData = [
+            { id: "172-32-1176", name: "Johnson White", city: "Menlo Park", state: "CA", contract: 1 },
+            { id: "213-46-8915", name: "Marjorie Green", city: "Oakland", state: "CA", contract: 1 },
+            { id: "238-95-7766", name: "Cheryl Carson", city: "Berkeley", state: "CA", contract: 1 },
+            { id: "267-41-2394", name: "Michael O'Leary", city: "San Jose", state: "CA", contract: 1 },
+            { id: "274-80-9391", name: "Dean Straight", city: "Oakland", state: "CA", contract: 1 },
+            { id: "341-22-1782", name: "Meander Smith", city: "Lawrence", state: "KS", contract: 0 },
+            { id: "409-56-7008", name: "Abraham Bennet", city: "Berkeley", state: "CA", contract: 1 },
+            { id: "427-17-2319", name: "Ann Dull", city: "Palo Alto", state: "CA", contract: 0 },
+            { id: "472-27-2349", name: "Burt Gringlesby", city: "Covelo", state: "CA", contract: 1 },
+            { id: "486-29-1786", name: "Charlene Locksley", city: "San Francisco", state: "CA", contract: 1 },
+            { id: "527-72-3246", name: "Morningstar Greene", city: "Nashville", state: "TN", contract: 0 },
+            { id: "648-92-1872", name: "Reginald Blotchet", city: "Corvallis", state: "OR", contract: 1 },
+            { id: "672-71-3249", name: "Akiko Yokomoto", city: "Walnut Creek", state: "CA", contract: 1 },
+            { id: "712-45-1867", name: "Innes del Castillo", city: "Ann Arbor", state: "MI", contract: 1 },
+            { id: "722-51-5454", name: "Michel DeFrance", city: "Gary", state: "IN", contract: 0 },
+            { id: "724-08-9931", name: "Dirk Stringer", city: "Oakland", state: "CA", contract: 0 },
+            { id: "724-80-9391", name: "Stearns MacFeather", city: "Oakland", state: "CA", contract: 1 },
+            { id: "756-30-7391", name: "Livia Karsen", city: "Oakland", state: "CA", contract: 1 },
+            { id: "807-91-6282", name: "Sylvia Panteley", city: "Rockville", state: "MD", contract: 1 },
+            { id: "846-92-7186", name: "Sheryl Hunter", city: "Palo Alto", state: "CA", contract: 1 },
+            { id: "893-72-1158", name: "Heather McBadden", city: "Vacaville", state: "CA", contract: 0 },
+            { id: "899-46-2035", name: "Anne Ringer", city: "Salt Lake City", state: "UT", contract: 1 },
+            { id: "998-72-3567", name: "Albert Ringer", city: "Salt Lake City", state: "UT", contract: 1 }
+        ];
+
+        const titlesData = [
+            { id: "BU1032", title: "The Busy Executive's Database Guide", type: "business", price: 19.99, sales: 4095 },
+            { id: "BU1111", title: "Cooking with Computers: Balance Sheets", type: "business", price: 11.95, sales: 3876 },
+            { id: "BU2075", title: "You Can Combat Computer Stress!", type: "business", price: 2.99, sales: 18722 },
+            { id: "BU7832", title: "Straight Talk About Computers", type: "business", price: 19.99, sales: 4095 },
+            { id: "MC2222", title: "Silicon Valley Gastronomic Treats", type: "mod_cook", price: 19.99, sales: 2032 },
+            { id: "MC3021", title: "The Gourmet Microwave", type: "mod_cook", price: 2.99, sales: 22246 },
+            { id: "MC3026", title: "The Psychology of Computer Cooking", type: "UNDECIDED", price: null, sales: null },
+            { id: "PC1035", title: "But Is It User Friendly?", type: "popular_comp", price: 22.95, sales: 8752 },
+            { id: "PC8888", title: "Secrets of Silicon Valley", type: "popular_comp", price: 20.00, sales: 4095 },
+            { id: "PC9999", title: "Net Etiquette", type: "popular_comp", price: null, sales: null },
+            { id: "PS1372", title: "Computer Phobic AND Non-Phobic Individuals", type: "psychology", price: 21.59, sales: 375 },
+            { id: "PS2091", title: "Is Anger a Useful Emotion?", type: "psychology", price: 10.95, sales: 2045 },
+            { id: "PS2106", title: "Life Without Fear", type: "psychology", price: 7.00, sales: 111 },
+            { id: "PS3333", title: "Prolonged Data Center Anxiety Association", type: "psychology", price: 19.99, sales: 4072 },
+            { id: "PS7777", title: "Emotional Security: A New Algorithm", type: "psychology", price: 7.99, sales: 3336 },
+            { id: "TC3218", title: "Onions, Leeks, and Garlic: Cooking", type: "trad_cook", price: 20.95, sales: 375 },
+            { id: "TC4203", title: "Fifty Years in Buckingham Palace Kitchens", type: "trad_cook", price: 11.95, sales: 15096 },
+            { id: "TC7777", title: "Sushi, Anyone?", type: "trad_cook", price: 14.99, sales: 4095 }
+        ];
+
+        const publishersData = [
+            { id: "0736", name: "New Moon Books", city: "Boston", state: "MA", country: "USA" },
+            { id: "0877", name: "Binnet & Hardley", city: "Washington", state: "DC", country: "USA" },
+            { id: "1389", name: "Algodata Infosystems", city: "Berkeley", state: "CA", country: "USA" },
+            { id: "1622", name: "Five Lakes Publishing", city: "Chicago", state: "IL", country: "USA" },
+            { id: "1756", name: "Ramona Publishers", city: "Dallas", state: "TX", country: "USA" },
+            { id: "9901", name: "GGG&G", city: "München", state: null, country: "Germany" },
+            { id: "9952", name: "Scootney Books", city: "Covelo", state: "CA", country: "USA" },
+            { id: "9999", name: "Lucerne Publishing", city: "Paris", state: null, country: "France" }
+        ];
+
+        function switchTab(group, tabName) {
+            document.querySelectorAll(`[id^="tab-${group}-"]`).forEach(btn => {
+                btn.className = "tab-btn py-4 px-6 text-sm font-bold text-slate-400 hover:text-white flex items-center gap-2 transition whitespace-nowrap";
+            });
+            document.querySelectorAll(`[id^="content-${group}-"]`).forEach(content => {
+                content.classList.add("hidden");
+            });
+
+            const activeBtn = document.getElementById(`tab-${group}-${tabName}`);
+            const activeContent = document.getElementById(`content-${group}-${tabName}`);
+            
+            if (group === 'unaria') {
+                activeBtn.className = "tab-btn py-4 px-6 text-sm font-bold text-brand-500 border-b-2 border-brand-500 flex items-center gap-2 transition whitespace-nowrap";
+            } else {
+                activeBtn.className = "tab-btn py-4 px-6 text-sm font-bold text-emerald-400 border-b-2 border-emerald-400 flex items-center gap-2 transition whitespace-nowrap";
+            }
+            activeContent.classList.remove("hidden");
+
+            if (group === 'unaria') {
+                updateUnarySimulator(tabName);
+            } else {
+                updateBinarySimulator(tabName);
+            }
+        }
+
+        function copyCode(elementId) {
+            const pre = document.getElementById(elementId);
+            const text = pre.innerText;
+            const textarea = document.createElement("textarea");
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textarea);
+
+            const toast = document.getElementById("toast");
+            toast.className = toast.className.replace("translate-y-20 opacity-0", "translate-y-0 opacity-100");
+            setTimeout(() => {
+                toast.className = toast.className.replace("translate-y-0 opacity-100", "translate-y-20 opacity-0");
+            }, 2500);
+        }
+
+        function updateUnarySimulator(operation) {
+            const container = document.getElementById("sim-controls-pane");
+            const opLabel = document.getElementById("sim-operator");
+            
+            if (operation === 'seleccion') {
+                opLabel.innerText = "σ Selección";
+                container.innerHTML = `
+                    <label class="text-xs font-bold text-slate-400">Seleccionar Condición Booleana (Predicado):</label>
+                    <div class="grid grid-cols-1 gap-2">
+                        <button onclick="runSelectionFilter('CA')" class="bg-brand-600 hover:bg-brand-700 text-white text-[11px] font-bold py-2.5 px-3 rounded-lg text-left border border-brand-500/30 flex justify-between items-center transition">
+                            <span>state = 'CA'</span> <i class="fa-solid fa-play"></i>
+                        </button>
+                        <button onclick="runSelectionFilter('Rango')" class="bg-brand-600 hover:bg-brand-700 text-white text-[11px] font-bold py-2.5 px-3 rounded-lg text-left border border-brand-500/30 flex justify-between items-center transition">
+                            <span>10.00 &lt;= price &lt;= 20.00</span> <i class="fa-solid fa-play"></i>
+                        </button>
+                        <button onclick="runSelectionFilter('Business')" class="bg-brand-600 hover:bg-brand-700 text-white text-[11px] font-bold py-2.5 px-3 rounded-lg text-left border border-brand-500/30 flex justify-between items-center transition">
+                            <span>type = 'business'</span> <i class="fa-solid fa-play"></i>
+                        </button>
+                    </div>
+                `;
+                runSelectionFilter('CA');
+            } else if (operation === 'proyeccion') {
+                opLabel.innerText = "π Proyección";
+                container.innerHTML = `
+                    <label class="text-xs font-bold text-slate-400">Seleccionar Atributos a Proyectar:</label>
+                    <div class="grid grid-cols-2 gap-2 text-xs bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                        <label class="flex items-center gap-2 cursor-pointer text-slate-300">
+                            <input type="checkbox" id="chk-fn" checked onclick="runProjectionSimulation()" class="rounded text-brand-600 focus:ring-brand-500 bg-slate-800 border-slate-700"> au_fname
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer text-slate-300">
+                            <input type="checkbox" id="chk-ln" checked onclick="runProjectionSimulation()" class="rounded text-brand-600 focus:ring-brand-500 bg-slate-800 border-slate-700"> au_lname
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer text-slate-300">
+                            <input type="checkbox" id="chk-ct" onclick="runProjectionSimulation()" class="rounded text-brand-600 focus:ring-brand-500 bg-slate-800 border-slate-700"> city
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer text-slate-300">
+                            <input type="checkbox" id="chk-st" onclick="runProjectionSimulation()" class="rounded text-brand-600 focus:ring-brand-500 bg-slate-800 border-slate-700"> state
+                        </label>
+                    </div>
+                    <div class="text-[10px] text-brand-accent mt-1.5"><i class="fa-solid fa-info-circle mr-1"></i> La proyección suprime registros redundantes en base a las columnas visibles.</div>
+                `;
+                runProjectionSimulation();
+            } else if (operation === 'renombramiento') {
+                opLabel.innerText = "ρ Renombramiento";
+                container.innerHTML = `
+                    <label class="text-xs font-bold text-slate-400">Definir Alias (Cuentas en Español):</label>
+                    <div class="space-y-3">
+                        <div class="flex flex-col gap-1">
+                            <span class="text-[10px] text-slate-500">Etiqueta para 'au_fname':</span>
+                            <input type="text" id="ren-fname" value="Nombre" oninput="runRenameSimulation()" class="bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-lg text-xs font-mono text-slate-200 focus:ring-1 focus:ring-brand-500">
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <span class="text-[10px] text-slate-500">Etiqueta para 'au_lname':</span>
+                            <input type="text" id="ren-lname" value="Apellido" oninput="runRenameSimulation()" class="bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-lg text-xs font-mono text-slate-200 focus:ring-1 focus:ring-brand-500">
+                        </div>
+                    </div>
+                `;
+                runRenameSimulation();
+            }
+        }
+
+        function runSelectionFilter(filterType) {
+            const table = document.getElementById("sim-table");
+            let filtered = [];
+            let headers = "";
+            let rows = "";
+
+            if (filterType === 'CA') {
+                filtered = authorsData.filter(a => a.state === "CA").slice(0, 4);
+                headers = "<tr><th class='pb-2 border-b border-slate-800 text-slate-400'>au_id</th><th class='pb-2 border-b border-slate-800 text-slate-400'>au_lname</th><th class='pb-2 border-b border-slate-800 text-slate-400'>state</th></tr>";
+                filtered.forEach(a => {
+                    rows += `<tr><td class='py-1.5 text-slate-500'>${a.id}</td><td class='font-bold text-white'>${a.name.split(' ')[1]}</td><td class='text-brand-accent font-bold'>${a.state}</td></tr>`;
+                });
+            } else if (filterType === 'Rango') {
+                filtered = titlesData.filter(t => t.price >= 10.00 && t.price <= 20.00).slice(0, 4);
+                headers = "<tr><th class='pb-2 border-b border-slate-800 text-slate-400'>title_id</th><th class='pb-2 border-b border-slate-800 text-slate-400'>title</th><th class='pb-2 border-b border-slate-800 text-slate-400'>price</th></tr>";
+                filtered.forEach(t => {
+                    rows += `<tr><td class='py-1.5 text-slate-500'>${t.id}</td><td class='font-bold text-white truncate max-w-[100px]'>${t.title}</td><td class='text-brand-accent font-bold'>$${t.price}</td></tr>`;
+                });
+            } else if (filterType === 'Business') {
+                filtered = titlesData.filter(t => t.type === 'business').slice(0, 4);
+                headers = "<tr><th class='pb-2 border-b border-slate-800 text-slate-400'>title_id</th><th class='pb-2 border-b border-slate-800 text-slate-400'>title</th><th class='pb-2 border-b border-slate-800 text-slate-400'>type</th></tr>";
+                filtered.forEach(t => {
+                    rows += `<tr><td class='py-1.5 text-slate-500'>${t.id}</td><td class='font-bold text-white truncate max-w-[100px]'>${t.title}</td><td class='text-brand-accent font-bold'>${t.type}</td></tr>`;
+                });
+            }
+
+            table.innerHTML = `<thead>${headers}</thead><tbody>${rows}</tbody>`;
+        }
+
+        function runProjectionSimulation() {
+            const table = document.getElementById("sim-table");
+            const chkFn = document.getElementById("chk-fn").checked;
+            const chkLn = document.getElementById("chk-ln").checked;
+            const chkCt = document.getElementById("chk-ct").checked;
+            const chkSt = document.getElementById("chk-st").checked;
+
+            let headers = "<tr>";
+            if (chkFn) headers += "<th class='pb-2 border-b border-slate-800 text-slate-400'>au_fname</th>";
+            if (chkLn) headers += "<th class='pb-2 border-b border-slate-800 text-slate-400'>au_lname</th>";
+            if (chkCt) headers += "<th class='pb-2 border-b border-slate-800 text-slate-400'>city</th>";
+            if (chkSt) headers += "<th class='pb-2 border-b border-slate-800 text-slate-400'>state</th>";
+            headers += "</tr>";
+
+            let rows = "";
+            authorsData.slice(0, 4).forEach(a => {
+                rows += "<tr>";
+                if (chkFn) rows += `<td class='py-1.5 text-white font-bold'>${a.name.split(' ')[0]}</td>`;
+                if (chkLn) rows += `<td class='py-1.5 text-slate-300'>${a.name.split(' ')[1]}</td>`;
+                if (chkCt) rows += `<td class='py-1.5 text-brand-gold'>${a.city}</td>`;
+                if (chkSt) rows += `<td class='py-1.5 text-brand-accent'>${a.state}</td>`;
+                rows += "</tr>";
+            });
+
+            table.innerHTML = `<thead>${headers}</thead><tbody>${rows}</tbody>`;
+        }
+
+        function runRenameSimulation() {
+            const table = document.getElementById("sim-table");
+            const aliasFn = document.getElementById("ren-fname").value || "au_fname";
+            const aliasLn = document.getElementById("ren-lname").value || "au_lname";
+
+            let headers = `<tr><th class='pb-2 border-b border-slate-800 text-brand-accent font-bold'>${aliasFn}</th><th class='pb-2 border-b border-slate-800 text-brand-accent font-bold'>${aliasLn}</th></tr>`;
+            let rows = "";
+
+            authorsData.slice(0, 4).forEach(a => {
+                rows += `<tr><td class='py-1.5 text-white font-bold'>${a.name.split(' ')[0]}</td><td class='py-1.5 text-slate-300'>${a.name.split(' ')[1]}</td></tr>`;
+            });
+
+            table.innerHTML = `<thead>${headers}</thead><tbody>${rows}</tbody>`;
+        }
+
+        function updateBinarySimulator(operation) {
+            const container = document.getElementById("sim-bin-controls-pane");
+            const opLabel = document.getElementById("sim-bin-operator");
+
+            if (operation === 'union') {
+                opLabel.innerText = "∪ Unión";
+                container.innerHTML = `
+                    <label class="text-xs font-bold text-slate-400">Demostrar Conjuntos de Ciudades:</label>
+                    <div class="space-y-3">
+                        <p class="text-[10px] text-slate-400 leading-relaxed text-justify">La operación de unión agrupa todas las ciudades donde residen autores y donde operan las editoriales, removiendo de forma transparente elementos duplicados de la colección final.</p>
+                        <button onclick="runUnionSimulation()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-2.5 px-3 rounded-lg flex items-center justify-center gap-2 transition shadow-lg shadow-emerald-900/10">
+                            <i class="fa-solid fa-layer-group"></i> Unir Conjuntos y Computar
+                        </button>
+                    </div>
+                `;
+                runUnionSimulation();
+            } else if (operation === 'diferencia') {
+                opLabel.innerText = "− Diferencia";
+                container.innerHTML = `
+                    <label class="text-xs font-bold text-slate-400">Restar Conjuntos Geográficos (A - B):</label>
+                    <div class="space-y-3">
+                        <p class="text-[10px] text-slate-400 leading-relaxed text-justify">Diferencia de conjuntos de ciudades. Identifica aquellas localidades que tienen autores vigentes pero que no registran oficinas físicas editoriales.</p>
+                        <button onclick="runDifferenceSimulation()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-2.5 px-3 rounded-lg flex items-center justify-center gap-2 transition shadow-lg shadow-emerald-900/10">
+                            <i class="fa-solid fa-scissors"></i> Aplicar Except() y Calcular
+                        </button>
+                    </div>
+                `;
+                runDifferenceSimulation();
+            } else if (operation === 'cartesiano') {
+                opLabel.innerText = "× Producto Cartesiano";
+                container.innerHTML = `
+                    <label class="text-xs font-bold text-slate-400">Cruzar Registros Totales (A × B):</label>
+                    <div class="space-y-3">
+                        <p class="text-[10px] text-slate-400 leading-relaxed text-justify">Combina cada tupla del primer conjunto (Autores) con cada una de las tuplas del segundo conjunto (Editoriales) en una sola colección de emparejamiento.</p>
+                        <button onclick="runCartesianSimulation()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-2.5 px-3 rounded-lg flex items-center justify-center gap-2 transition shadow-lg shadow-emerald-900/10">
+                            <i class="fa-solid fa-shuffle"></i> Cruzar Registros en Matriz
+                        </button>
+                    </div>
+                `;
+                runCartesianSimulation();
+            }
+        }
+
+        function runUnionSimulation() {
+            const table = document.getElementById("sim-bin-table");
+            const ciudadesAutores = ["Menlo Park", "Oakland", "Berkeley", "San Jose", "Salt Lake City"];
+            const ciudadesEditoriales = ["Boston", "Washington", "Berkeley", "Chicago", "Covelo"];
+            const unionSet = Array.from(new Set([...ciudadesAutores, ...ciudadesEditoriales]));
+
+            let headers = `<tr><th class='pb-2 border-b border-slate-800 text-slate-400'>Ciudad Resultante</th><th class='pb-2 border-b border-slate-800 text-right text-slate-400'>Origen de Datos</th></tr>`;
+            let rows = "";
+
+            unionSet.slice(0, 5).forEach(ciudad => {
+                let origen = "";
+                if (ciudadesAutores.includes(ciudad) && ciudadesEditoriales.includes(ciudad)) {
+                    origen = "<span class='bg-emerald-950 text-emerald-300 border border-emerald-850 px-2 py-0.5 rounded text-[8px] font-bold'>Ambos Conjuntos</span>";
+                } else if (ciudadesAutores.includes(ciudad)) {
+                    origen = "<span class='bg-blue-900/40 text-blue-300 px-2 py-0.5 rounded text-[8px] font-bold'>Authors</span>";
+                } else {
+                    origen = "<span class='bg-brand-900/40 text-brand-100 px-2 py-0.5 rounded text-[8px] font-bold'>Publishers</span>";
+                }
+                rows += `<tr><td class='py-1.5 text-white font-bold'>${ciudad}</td><td class='text-right'>${origen}</td></tr>`;
+            });
+
+            table.innerHTML = `<thead>${headers}</thead><tbody>${rows}</tbody>`;
+        }
+
+        function runDifferenceSimulation() {
+            const table = document.getElementById("sim-bin-table");
+            const ciudadesAutores = ["Menlo Park", "Oakland", "Berkeley", "San Jose", "Salt Lake City"];
+            const ciudadesEditoriales = ["Boston", "Washington", "Berkeley", "Chicago", "Covelo"];
+            const differenceSet = ciudadesAutores.filter(c => !ciudadesEditoriales.includes(c));
+
+            let headers = `<tr><th class='pb-2 border-b border-slate-800 text-slate-400'>Ciudad sin Editorial</th><th class='pb-2 border-b border-slate-800 text-right text-slate-400'>Estado Filtro</th></tr>`;
+            let rows = "";
+
+            differenceSet.forEach(ciudad => {
+                rows += `<tr><td class='py-1.5 text-white font-bold'>${ciudad}</td><td class='text-right'><span class='text-emerald-400 font-bold text-[9px]'><i class='fa-solid fa-check mr-1'></i> Exclusivo</span></td></tr>`;
+            });
+
+            table.innerHTML = `<thead>${headers}</thead><tbody>${rows}</tbody>`;
+        }
+
+        function runCartesianSimulation() {
+            const table = document.getElementById("sim-bin-table");
+            const autoresMuestra = ["Johnson White", "Marjorie Green"];
+            const editorialesMuestra = ["New Moon Books", "Binnet & Hardley"];
+
+            let headers = `<tr><th class='pb-2 border-b border-slate-800 text-slate-400'>Autor (Set A)</th><th class='pb-2 border-b border-slate-800 text-slate-400'>Editorial (Set B)</th></tr>`;
+            let rows = "";
+
+            autoresMuestra.forEach(a => {
+                editorialesMuestra.forEach(e => {
+                    rows += `<tr><td class='py-1 text-slate-300'>${a}</td><td class='py-1 text-emerald-400 font-bold'>${e}</td></tr>`;
+                });
+            });
+
+            table.innerHTML = `<thead>${headers}</thead><tbody>${rows}</tbody>`;
+        }
+
+        window.onload = function() {
+            updateUnarySimulator('seleccion');
+            updateBinarySimulator('union');
+        }
+    </script>
+</body>
+</html>
